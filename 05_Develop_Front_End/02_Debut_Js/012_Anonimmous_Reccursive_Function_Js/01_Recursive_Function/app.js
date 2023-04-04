@@ -1,4 +1,4 @@
-function loading (percent) {
+/*function loading (percent) {
     while (percent < 100) {
     percent++
     }
@@ -15,8 +15,17 @@ function loading (percent) {
     }
     
     loading(0)
-    loadingRecursive(0)
+    loadingRecursive(0)*/
 
 
-
+    function loadingRecursive(percent) {
+        if (percent < 100) {
+          percent++;
+          loadingRecursive(percent);
+        } else {
+          console.log("Chargement terminé !");
+        }
+      }
+      
     
+        

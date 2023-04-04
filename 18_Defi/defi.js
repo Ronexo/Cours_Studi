@@ -42,3 +42,15 @@ prices.forEach(price => {
   let prixFinal = calculerPrixFinal(price, 25);
   console.log(prixFinal);
 });*/
+
+
+
+function factorial(n){
+  let sum = 1;
+
+  for(let i = 1; i <= n; i++) {
+      sum *= i;
+      console.log(sum);
+  }
+  return sum;
+}  
