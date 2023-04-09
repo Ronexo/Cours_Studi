@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bwip-js/2.1.1/bwip-js.min.js"></script>
+  </head>
+  <body>
+    <canvas id="barcodeCanvas"></canvas>
+    <script>
+      function calculateEAN13CheckDigit(number) {
+        let sum = 0;
+        for (let i = 0; i < 12; i++) {
+          sum += (i % 2 === 0 ? 1 : 3) * parseInt(number.charAt(i), 10);
+        }
+        const checkDigit = (10 - (sum % 10)) % 10;
+        return checkDigit;
+      }
+
+      const prefix = "123";
+      const productNumber = "456789012";
+      const checkDigit = calculateEAN13CheckDigit(prefix + productNumber);
+
+      const barcodeText = prefix + productNumber + checkDigit;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof bwipjs === "undefined") {
+          console.error("Erreur lors du chargement de bwip-js.");
+          return;
+        }
+
+        const barcodeCanvas = document.getElementById("barcodeCanvas");
+
+        bwipjs.toCanvas(barcodeCanvas, {
+          bcid: "ean13", // Type de code-barres
+          text: barcodeText, // Texte du code-barres
+          scale: 2, // Échelle du code-barres
+          height: 10, // Hauteur du code-barres
+          includetext: true, // Inclure le texte sous le code-barres
+          textxalign: "center", // Alignement horizontal du texte
+        });
+      });
+    </script>
+  </body>
+</html>

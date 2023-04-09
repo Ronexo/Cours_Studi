@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bwip-js/2.1.1/bwip-js.min.js"></script>
+  </head>
+  <body>
+    <canvas id="barcodeCanvas"></canvas>
+    <div>
+      <label for="barcodeInput">Entrez le code-barres :</label>
+      <input type="text" id="barcodeInput" />
+      <button id="checkBalanceButton">Vérifier le solde</button>
+    </div>
+    <div id="balanceOutput"></div>
+    <script>
+      function generateRandomEAN13() {
+        let barcodeText = '';
+        for (let i = 0; i < 12; i++) {
+          barcodeText += Math.floor(Math.random() * 10);
+        }
+        barcodeText += calculateEAN13CheckDigit(barcodeText);
+        return barcodeText;
+      }
+
+      function calculateEAN13CheckDigit(number) {
+        let sum = 0;
+        for (let i = 0; i < 12; i++) {
+          sum += (i % 2 === 0 ? 1 : 3) * parseInt(number.charAt(i), 10);
+        }
+        const checkDigit = (10 - (sum % 10)) % 10;
+        return checkDigit;
+      }
+
+      function drawBarcode(barcodeText) {
+        const barcodeCanvas = document.getElementById("barcodeCanvas");
+        bwipjs.toCanvas(barcodeCanvas, {
+          bcid: "ean13",
+          text: barcodeText,
+          scale: 2,
+          height: 10,
+          includetext: true,
+          textxalign: "center",
+        });
+      }
+
+      let barcodeText = generateRandomEAN13();
+      const barcodeBalances = {};
+      barcodeBalances[barcodeText] = 50;
+
+      console.log(`Le solde du code-barres ${barcodeText} est de ${barcodeBalances[barcodeText]}€.`);
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof bwipjs === "undefined") {
+          console.error("Erreur lors du chargement de bwip-js.");
+          return;
+        }
+
+        drawBarcode(barcodeText);
+
+        const checkBalanceButton = document.getElementById("checkBalanceButton");
+        const barcodeInput = document.getElementById("barcodeInput");
+        const balanceOutput = document.getElementById("balanceOutput");
+
+        checkBalanceButton.addEventListener("click", function () {
+          const inputBarcode = barcodeInput.value;
+          if (barcodeBalances.hasOwnProperty(inputBarcode)) {
+            balanceOutput.textContent = `Le solde du code-barres ${inputBarcode} est de ${barcodeBalances[inputBarcode]}€.`;
+          } else {
+            balanceOutput.textContent = `Code-barres ${inputBarcode} non trouvé. Génération d'un nouveau code-barres...`;
+            barcodeText = generateRandomEAN13();
+            barcodeBalances[barcodeText] = 50;
+            console.log(`Le solde du nouveau code-barres ${barcodeText} est de ${barcodeBalances[barcodeText]}€.`);
+            drawBarcode(barcodeText);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

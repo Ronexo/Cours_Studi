@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bwip-js/2.1.1/bwip-js.min.js"></script>
+  </head>
+  <body>
+    <canvas id="barcodeCanvas"></canvas>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof bwipjs === "undefined") {
+          console.error("Erreur lors du chargement de bwip-js.");
+          return;
+        }
+
+        const barcodeCanvas = document.getElementById("barcodeCanvas");
+        
+        // Texte du code-barres
+        const barcodeText = "123456789012";
+
+        bwipjs.toCanvas(barcodeCanvas, {
+          bcid: "code128", // Type de code-barres
+          text: barcodeText, // Texte du code-barres
+          scale: 2, // Échelle du code-barres
+          height: 10, // Hauteur du code-barres
+          includetext: true, // Inclure le texte sous le code-barres
+          textxalign: "center", // Alignement horizontal du texte
+        });
+      });
+    </script>
+  </body>
+</html>
