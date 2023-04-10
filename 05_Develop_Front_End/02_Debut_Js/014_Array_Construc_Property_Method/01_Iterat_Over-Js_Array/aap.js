@@ -1,7 +1,7 @@
 // Returns the result of the addition of array accumulator and array current value.
 // accumulator : value returned by sumReducer() of the elements already browsed in the array
 // currentValue : value of the element being processed in the array
-function sumReducer(accumulator, currentValue) {
+/*function sumReducer(accumulator, currentValue) {
     return accumulator + currentValue
   }
   
@@ -71,4 +71,18 @@ for (let i = 0; i < numbers.length; i++) {
   stepResults.push(stepArray.slice())
 }
 console.log(stepResults)
-// expected output: [[100, 0, 9, 5, 4, 6, 8, 2], [100, -9, 5, 4, 6, 8, 2], [100, -9, -1, 4, 6, 8, 2], [100, -9, -1, -2, 6, 8, 2], [100, -9, -1, -2, -2, 8, 2], [100, -9, -1, -2, -2, -6, 2], [100, -9, -1, -2, -2, -6, -2], [100, -9, -1, -2, -2, -6], [100, -9, -1, -2, -2], [100, -9, -1, -2], [100, -9, -1], [100, -9], [100], 66]
+// expected output: [[100, 0, 9, 5, 4, 6, 8, 2], [100, -9, 5, 4, 6, 8, 2], [100, -9, -1, 4, 6, 8, 2], [100, -9, -1, -2, 6, 8, 2], [100, -9, -1, -2, -2, 8, 2], [100, -9, -1, -2, -2, -6, 2], [100, -9, -1, -2, -2, -6, -2], [100, -9, -1, -2, -2, -6], [100, -9, -1, -2, -2], [100, -9, -1, -2], [100, -9, -1], [100, -9], [100], 66] */
+
+let productStocks = [15, 184, 29, 0, 35];
+
+console.log(productStocks.every(function(element) {
+  return element > 0
+}))
+
+function isGreaterThanZero(element) {
+  return element > 0
+}
+
+let productStockss = [15, 184, 29, 0, 35]
+
+console.log(productStockss.every(isGreaterThanZero))
