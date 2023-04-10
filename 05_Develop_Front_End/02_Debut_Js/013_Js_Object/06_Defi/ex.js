@@ -12,5 +12,16 @@ workers.forEach((worker) => {
   };
 });
 
-// Exemple d'utilisation de la méthode "alert"
-console.log(workers[0].alert()); // affichera "employé: Benjamin, heures: 35"
+let alerte = '';
+
+workers.forEach((worker) => {
+  if (worker.nbHour !== 35) {
+    alerte += `${worker.alert()}\n`;
+  }
+});
+
+if (alerte !== '') {
+  alert(`Attention, les employés suivants n'ont pas effectué exactement 35 heures :\n${alerte}`);
+} else {
+  alert('Tous les employés ont effectué exactement 35 heures.');
+}

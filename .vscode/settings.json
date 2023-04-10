@@ -1,5 +1,6 @@
 {
     "CodeGPT.model": "gpt-4",
     "CodeGPT.query.language": "French",
-    "CodeGPT.maxTokens": 2600
+    "CodeGPT.maxTokens": 2600,
+    "editor.fontSize": 18
 }
