@@ -479,65 +479,27 @@ executer();*/
 
 
 const brain = require('brain.js');
+const gpu = new brain.NGPU();
+const net = new brain.NeuralNetworkGPU();
 
-// Générer une liste de toutes les combinaisons possibles de 4 chiffres (0000 - 9999)
-const codes = [];
-for (let i = 0; i < 10000; i++) {
-  let code = i.toString().padStart(4, '0');
-  codes.push(code);
-}
+const config = {
+    inputSize: 10,
+    hiddenLayers: [5],
+    outputSize: 10,
+    learningRate: 0.01,
+    activation: 'sigmoid'
+};
 
-// Générer une liste de combinaisons secrètes à deviner
-const secretCodes = ['1234', '5678', '9876', '4321'];
+const trainingData = [
+    {input: [0,0,0,0,0,0,0,0,0,0], output: [0,0,0,0,0,0,0,0,0,0]},
+    {input: [1,1,1,1,1,1,1,1,1,1], output: [1,1,1,1,1,1,1,1,1,1]}
+];
 
-// Fonction pour convertir une combinaison en un tableau de chiffres
-function getCodeArray(code) {
-  return code.split('').map(c => parseInt(c));
-}
+gpu.acquire(net);
+net.train(trainingData, config);
+gpu.release(net);
 
-// Fonction pour entraîner le réseau de neurones à deviner la combinaison secrète
-function entrainer() {
-  const net = new brain.NeuralNetwork();
+const output = net.run([0,0,0,0,0,0,0,0,0,0]);
+console.log(output);
 
-  const trainingData = secretCodes.map(secretCode => {
-    const input = getCodeArray(secretCode);
-    const output = getCodeArray('0000');
-    return { input, output };
-  });
-
-  net.train(trainingData, { log: true });
-  return net;
-}
-
-// Fonction pour deviner la combinaison secrète à l'aide du réseau de neurones entraîné
-function deviner(net) {
-  secretCodes.forEach(secretCode => {
-    const input = getCodeArray('0000');
-    let output = net.run(input);
-
-    let guess = '';
-    for (let i = 0; i < output.length; i++) {
-      let digit = Math.round(output[i]);
-      guess += digit.toString();
-    }
-
-    while (!secretCode.includes(guess)) {
-      input.shift();
-      input.push(parseInt(guess.charAt(guess.length - 1)));
-      output = net.run(input);
-
-      guess = '';
-      for (let i = 0; i < output.length; i++) {
-        let digit = Math.round(output[i]);
-        guess += digit.toString();
-      }
-    }
-
-    console.log(`La combinaison secrète est ${secretCode}, devinée par le réseau de neurones : ${guess}`);
-  });
-}
-
-// Entraîner le réseau de neurones et deviner la combinaison secrète
-const net = entrainer();
-deviner(net);
 
