@@ -199,7 +199,7 @@ function deviner(code, longueur, tentative) {
 deviner(code_cache, longueur, tentative); // Appeler la fonction pour deviner le code*/
 
 
-var code_cache = "testtesttesttesttesttesttesttesttestt"; // Code caché du téléphone
+/*var code_cache = "testtesttesttesttesttesttesttesttestt"; // Code caché du téléphone
 var caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}\\|;':\",./<>?`~ "; // Tous les caractères possibles du clavier
 var longueur = caracteres.length; // Longueur de la chaîne de caractères
 var tentative = ""; // Chaîne vide pour commencer à deviner
@@ -222,4 +222,322 @@ while (!code_trouve) {
       }
     }
   }
+}*/
+
+
+/*var code_cache = "testfjdlfjsdlfjsljflsdjflsdjf"; // Code caché du téléphone
+var caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}\\|;':\",./<>?`~ "; // Tous les caractères possibles du clavier
+var longueur = caracteres.length; // Longueur de la chaîne de caractères
+var code_trouve = false; // Indique si le code a été trouvé
+
+for (var i = 1; i <= 30 && !code_trouve; i++) { // Boucle pour essayer des codes de longueur 1 à 30
+  var tentative = "";
+  for (var j = 0; j < i; j++) { // Boucle pour générer une tentative de longueur i
+    tentative += caracteres[0]; // Commencer avec le premier caractère
+  }
+  while (tentative != null && !code_trouve) { // Boucle jusqu'à ce qu'un code soit trouvé ou que toutes les tentatives soient épuisées
+    if (tentative == code_cache) { // Si le code caché est trouvé
+      console.log("Le code caché est: " + tentative); // Afficher le code caché
+      code_trouve = true; // Mettre à jour la variable pour indiquer que le code a été trouvé
+    } else {
+      tentative = prochaineTentative(tentative, caracteres); // Générer la prochaine tentative
+    }
+  }
 }
+
+function prochaineTentative(tentative, caracteres) {
+  var longueur = tentative.length;
+  var index = longueur - 1;
+  var derniereCaractere = tentative[index];
+  while (index >= 0 && derniereCaractere == caracteres[caracteres.length - 1]) { // Boucle pour trouver le dernier caractère qui n'est pas le dernier caractère de la liste de caractères possibles
+    index--;
+    derniereCaractere = tentative[index];
+  }
+  if (index < 0) { // Si tous les caractères sont le dernier caractère de la liste, toutes les tentatives ont été épuisées
+    return null;
+  } else { // Sinon, générer la prochaine tentative en remplaçant le dernier caractère par le suivant dans la liste
+    return tentative.slice(0, index) + caracteres[caracteres.indexOf(derniereCaractere) + 1] + Array(longueur - index - 1 + 1).join(caracteres[0]);
+  }
+}*/
+
+/*var caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}\\|;':\",./<>?`~ "; // Tous les caractères possibles du clavier
+var longueur = caracteres.length; // Longueur de la chaîne de caractères
+
+function genererCodeAleatoire(longueur) {
+  var code = "";
+  for (var i = 0; i < longueur; i++) {
+    code += caracteres[Math.floor(Math.random() * longueur)]; // Ajouter un caractère aléatoire à la chaîne
+  }
+  return code;
+}
+
+function devinerCode() {
+  var code_cache = genererCodeAleatoire(29); // Générer un code aléatoire de 29 caractères
+  var tentative = ""; // Chaîne vide pour commencer à deviner
+  var code_trouve = false; // Indique si le code a été trouvé
+  var debut = Date.now(); // Temps de début de la recherche
+
+  while (!code_trouve) {
+    for (var i = 0; i < longueur && !code_trouve; i++) {
+      for (var j = 0; j < longueur && !code_trouve; j++) {
+        for (var k = 0; k < longueur && !code_trouve; k++) {
+          for (var l = 0; l < longueur && !code_trouve; l++) {
+            tentative = caracteres[i] + caracteres[j] + caracteres[k] + caracteres[l]; // Essayez la combinaison suivante
+            if (tentative == code_cache) { // Si le code caché est trouvé
+              console.log("Le code caché est : " + tentative); // Afficher le code caché
+              code_trouve = true; // Mettre à jour la variable pour indiquer que le code a été trouvé
+            }
+          }
+        }
+      }
+    }
+    if (!code_trouve && Date.now() - debut > 5000) { // Si le temps écoulé est supérieur à 5 secondes
+      console.log("Le code caché était : " + code_cache); // Afficher le code caché
+      break; // Sortir de la boucle
+    }
+  }
+}
+
+devinerCode(); // Appeler la fonction pour deviner le code*/
+
+/*var caracteresPossibles = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}\\|;':\",./<>?`~ ";
+var longueurCodeSecret = 9;
+var codeSecret = genererCodeSecret(longueurCodeSecret);
+
+console.log("Le code secret est: " + codeSecret);
+
+var min = 0;
+var max = Math.pow(caracteresPossibles.length, longueurCodeSecret) - 1;
+
+while (min <= max) {
+  var milieu = Math.floor((min + max) / 2);
+  var tentative = convertirIndiceEnCode(milieu, longueurCodeSecret, caracteresPossibles);
+
+  console.log("Tentative: " + tentative);
+
+  if (tentative === codeSecret) {
+    console.log("Le code secret est: " + tentative);
+    break;
+  } else if (codeSecret.localeCompare(tentative) === 1) {
+    min = milieu + 1;
+  } else {
+    max = milieu - 1;
+  }
+}
+
+function genererCodeSecret(longueur) {
+  var code = "";
+  for (var i = 0; i < longueur; i++) {
+    code += caracteresPossibles[Math.floor(Math.random() * caracteresPossibles.length)];
+  }
+  return code;
+}
+
+function convertirIndiceEnCode(indice, longueur, caracteres) {
+  var code = "";
+  for (var i = 0; i < longueur; i++) {
+    code = caracteres[indice % caracteres.length] + code;
+    indice = Math.floor(indice / caracteres.length);
+  }
+  return code;
+}*/
+
+
+/*var code_cache = "test"; // Code caché du téléphone
+var caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}\\|;':\",./<>?`~ "; // Tous les caractères possibles du clavier
+var longueur = caracteres.length; // Longueur de la chaîne de caractères
+var tentative = ""; // Chaîne vide pour commencer à deviner
+var code_trouve = false; // Indique si le code a été trouvé
+
+// Calculer le nombre de combinaisons possibles pour une longueur donnée
+function nombreCombinations(longueur) {
+  var total = 0;
+  for (var i = 1; i <= longueur; i++) {
+    total += Math.pow(caracteres.length, i);
+  }
+  return total;
+}
+
+// Calculer le nombre total de combinaisons possibles pour un code de longueur donnée
+var nb_combinations = nombreCombinations(code_cache.length);
+
+// Afficher le nombre total de combinaisons à tester
+console.log("Nombre total de combinaisons à tester : " + nb_combinations);
+
+// Tester toutes les combinaisons possibles
+for (var i = 0; i < longueur && !code_trouve; i++) {
+  for (var j = 0; j < longueur && !code_trouve; j++) {
+    for (var k = 0; k < longueur && !code_trouve; k++) {
+      for (var l = 0; l < longueur && !code_trouve; l++) {
+        tentative = caracteres[i] + caracteres[j] + caracteres[k] + caracteres[l]; // Essayez la combinaison suivante
+        if (tentative == code_cache) { // Si le code caché est trouvé
+          console.log("Le code caché est : " + tentative); // Afficher le code caché
+          code_trouve = true; // Mettre à jour la variable pour indiquer que le code a été trouvé
+        } else {
+          // Calculer le nombre de combinaisons restantes à tester
+          var nb_combinations_restantes = nb_combinations - (i * Math.pow(caracteres.length, 3) + j * Math.pow(caracteres.length, 2) + k * caracteres.length + l + 1);
+          // Afficher le nombre de combinaisons restantes à tester
+          console.log("Nombre de combinaisons restantes : " + nb_combinations_restantes);
+        }
+      }
+    }
+  }
+}*/
+
+/*var code_cache = "test"; // Code caché du téléphone
+var caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}\\|;':\",./<>?`~ "; // Tous les caractères possibles du clavier
+var longueur = caracteres.length; // Longueur de la chaîne de caractères
+var population_size = 1000; // Taille de la population
+var max_generations = 5000; // Nombre maximal de générations à exécuter
+var mutation_rate = 0.05; // Taux de mutation
+var elite_rate = 0.1; // Taux d'élitisme
+var population = []; // Population de candidats
+var code_trouve = false; // Indique si le code a été trouvé
+var generations = 0; // Compteur de générations
+
+// Générer une population initiale de candidats
+function initialiserPopulation() {
+  for (var i = 0; i < population_size; i++) {
+    var candidat = "";
+    for (var j = 0; j < code_cache.length; j++) { // Correction ici
+      var index = Math.floor(Math.random() * longueur);
+      candidat += caracteres[index];
+    }
+    population.push(candidat);
+  }
+}
+
+
+// Evaluer la qualité des candidats de la population
+function evaluerPopulation() {
+  for (var i = 0; i < population_size; i++) {
+    var candidat = population[i];
+    var score = 0;
+    for (var j = 0; j < code_cache.length; j++) {
+      if (candidat[j] == code_cache[j]) {
+        score++;       
+      }
+    }
+    population[i] = {code: candidat, score: score};
+    if (score == code_cache.length) { // Si le code est trouvé
+      console.log("Le code caché est : " + candidat); // Afficher le code caché
+      code_trouve = true; // Mettre à jour la variable pour indiquer que le code a été trouvé
+      
+    }
+    console.log("Score du candidat " + i + " : " + score);
+  }
+}
+
+// Sélectionner les meilleurs candidats de la population pour la génération suivante
+function selectionner() {
+  population.sort(function(a, b) {
+    return b.score - a.score; // Tri en ordre décroissant en fonction du score
+  });
+
+  var elite_size = Math.floor(population_size * elite_rate);
+  var elite = population.slice(0, elite_size);
+  var parents = population.slice(elite_size);
+  parents = parents.filter(function(candidat, index) { // Filtrer les candidats avec un score de zéro
+    return candidat.score > 0 && candidat.code !== undefined;
+  });
+  population = elite;
+  while (population.length < population_size) {
+    var parent1 = parents[Math.floor(Math.random() * parents.length)];
+    var parent2 = parents[Math.floor(Math.random() * parents.length)];
+    if (parent1 && parent2 && parent1.code && parent2.code) {
+
+      var enfant = croiser(parent1.code, parent2.code);
+      enfant = muter(enfant);
+      population.push(enfant);
+    }
+  }
+}
+
+// Exécuter l'algorithme génétique
+function executer() {
+  initialiserPopulation();
+  while (!code_trouve && generations < max_generations) {
+    evaluerPopulation();
+    selectionner();
+    generations++;
+    
+    console.log("Code trouvé : " + code_trouve);
+    console.log("Générations : " + generations);
+
+    // Afficher le nombre de générations écoulées toutes les 10 générations
+    if (generations % 10 == 0) {
+      console.log(generations + " générations ont été exécutées.");
+    }
+  }
+
+  if (!code_trouve) {
+    console.log("Le code n'a pas été trouvé après " + max_generations + " générations.");
+  }
+}
+
+executer();*/
+
+
+const brain = require('brain.js');
+
+// Générer une liste de toutes les combinaisons possibles de 4 chiffres (0000 - 9999)
+const codes = [];
+for (let i = 0; i < 10000; i++) {
+  let code = i.toString().padStart(4, '0');
+  codes.push(code);
+}
+
+// Générer une liste de combinaisons secrètes à deviner
+const secretCodes = ['1234', '5678', '9876', '4321'];
+
+// Fonction pour convertir une combinaison en un tableau de chiffres
+function getCodeArray(code) {
+  return code.split('').map(c => parseInt(c));
+}
+
+// Fonction pour entraîner le réseau de neurones à deviner la combinaison secrète
+function entrainer() {
+  const net = new brain.NeuralNetwork();
+
+  const trainingData = secretCodes.map(secretCode => {
+    const input = getCodeArray(secretCode);
+    const output = getCodeArray('0000');
+    return { input, output };
+  });
+
+  net.train(trainingData, { log: true });
+  return net;
+}
+
+// Fonction pour deviner la combinaison secrète à l'aide du réseau de neurones entraîné
+function deviner(net) {
+  secretCodes.forEach(secretCode => {
+    const input = getCodeArray('0000');
+    let output = net.run(input);
+
+    let guess = '';
+    for (let i = 0; i < output.length; i++) {
+      let digit = Math.round(output[i]);
+      guess += digit.toString();
+    }
+
+    while (!secretCode.includes(guess)) {
+      input.shift();
+      input.push(parseInt(guess.charAt(guess.length - 1)));
+      output = net.run(input);
+
+      guess = '';
+      for (let i = 0; i < output.length; i++) {
+        let digit = Math.round(output[i]);
+        guess += digit.toString();
+      }
+    }
+
+    console.log(`La combinaison secrète est ${secretCode}, devinée par le réseau de neurones : ${guess}`);
+  });
+}
+
+// Entraîner le réseau de neurones et deviner la combinaison secrète
+const net = entrainer();
+deviner(net);
+
